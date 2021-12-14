@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+{#This page shows the user his/her watchlist. Users cannot view each other's watchlists.#}
+{% block title %}My Watchlist{% endblock title %}
+{% block header %}
+    <h1>My watchlist</h1>
+{% endblock %}
+{% block content %}
+
+    {% if object_list %}
+        <div class="row">
+
+            {% for object in object_list %}
+                <div class="col-xs-12 col-md-6">
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+
+                            <div class="media">
+                                <div class="media-left">
+                                    <a href="#">
+                                        {% if object.content.video %}
+                                            <span class="glyphicon glyphicon-facetime-video" aria-hidden="true"
+                                                  style="font-size: 50px;"></span>
+                                        {% else %}
+                                            <span class="glyphicon glyphicon-align-left" aria-hidden="true"
+                                                  style="font-size: 50px;"></span>
+                                        {% endif %}
+                                    </a>
+                                </div>
+                                <div class="media-body">
+                                    <h4 class="media-heading">{{ object.content.title}}</h4>
+                                    {{object.content.short_description}}
+                                    <br>
+                                    <div class="btn-group" role="group" aria-label="...">
+                                        <a href="/user/watchlist/delete/{{ object.content.slug }}/">
+                                         <button type="button" class="btn btn-danger">Remove</button>
+                                            </a>
+                                        <a href="{{ object.content.get_absolute_url }}">
+                                         <button type="button" class="btn btn-primary">Watch</button>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    {#                    {{ object.content.title }} <br>#}
+                    {#                    {{ object.content.slug }} <br>#}
+                    {#                    <a href="{{ object.content.get_absolute_url }}">watch</a> -#}
+                    {#                    <a href="/user/watchlist/delete/{{ object.content.slug }}/">delete</a><br>#}
+                    {#                    {{ object.date_created }}#}
+                </div>
+            {% endfor %}
+
+
+        </div>
+    {% else %}
+List is empty.
+    {% endif %}
+
+
+{% include "paginator.html" %}
+
+{% endblock %}

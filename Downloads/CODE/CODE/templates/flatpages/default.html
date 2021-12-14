@@ -1,0 +1,8 @@
+{% extends "base.html" %}
+{#Basic template to add simple pages.#}
+ {% block title %}
+ {{ flatpage.title }}
+    {% endblock %}
+{% block content %}
+{{ flatpage.content|safe }}
+{% endblock %}

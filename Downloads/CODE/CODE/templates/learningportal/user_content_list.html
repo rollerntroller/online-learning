@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{#This page is used to list uploads of an user. If the user is visiting this page for his own uploads, then he can also delete the posts.#}
+{% load crispy_forms_tags %}
+{% block header %}
+<h1>All content from {{ selected_user.username }} <small>({{ selected_user.first_name }} {{ selected_user.last_name }})</small></h1>
+{% endblock %}
+{% block title %}All content from {{ selected_user.username }} {% endblock title %}
+
+{% block content %}
+     {% if object_list %}
+        <div class="row">
+
+            {% for object in object_list %}
+                <div class="col-xs-12 col-md-6">
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+
+                            <div class="media">
+                                <div class="media-left">
+                                    <a href="#">
+                                        {% if object.video %}
+                                            <span class="glyphicon glyphicon-facetime-video" aria-hidden="true"
+                                                  style="font-size: 50px;"></span>
+                                        {% else %}
+                                            <span class="glyphicon glyphicon-align-left" aria-hidden="true"
+                                                  style="font-size: 50px;"></span>
+                                        {% endif %}
+                                    </a>
+                                </div>
+                                <div class="media-body">
+                                    <h4 class="media-heading">{{ object.title}}</h4>
+                                    {{object.short_description}}
+                                    <br>
+                                    <div class="btn-group" role="group" aria-label="...">
+                                        {% if same_user %}
+                                        <a href="/user/watchlist/delete/{{ object.slug }}/">
+                                         <button type="button" class="btn btn-danger">Delete</button>
+                                            </a>
+                                        {% endif %}
+                                        <a href="{{ object.get_absolute_url }}">
+                                         <button type="button" class="btn btn-primary">Study</button>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+
+
+        </div>
+    {% else %}
+List is empty.
+    {% endif %}
+{% include "paginator.html" %}
+{% endblock %}
